@@ -2,6 +2,10 @@ from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
 import re
 
 class CPKodiSkill(CommonPlaySkill):
+    def __init__(self):
+        super(CPKodiSkill, self).__init__('Kodi Skill')
+        self.regexes = {}
+
     def CPS_match_query_phrase(self, phrase):
         """ This method responds wether the skill can play the input phrase.
             The method is invoked by the PlayBackControlSkill.
