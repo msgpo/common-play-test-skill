@@ -15,30 +15,18 @@ class CPKodiSkill(CommonPlaySkill):
                      or None if no match was found.
         """
         self.log.info('CPKodiSkill received the following phrase: ' + phrase)
-        deviceID = "chromecast"
-        chromecast_specified = deviceID in phrase
-        phrase = re.sub(self.translate_regex(deviceID), '', phrase)
-        match_level = CPSMatchLevel.MULTI_KEY
-        match = self.specific_query(phrase)
-        # If nothing was found check for a generic match
-        if match == NOTHING_FOUND:
-            match = self.generic_query(phrase)
-            match_level = CPSMatchLevel.GENERIC
+        devices = ["chromecast", "kodi"]
 
-        self.log.info('CPKodiSkill match: {}'.format(match))
-        self.log.info('CPKodiSkill matched the following: ' + match)
-        if match == NOTHING_FOUND:
-            self.log.debug('Nothing found on CPKodiSkill')
-            return None
-        else:
+        if devices in phrase:
+            match_level = CPSMatchLevel.EXACT
             return (phrase,
-                    (CPSMatchLevel.EXACT if chromecast_specified else match_level),
-                    {'playlist': match[0],
-                     'playlist_type': match[2],
-                     'library_type': match[3]
+                    match_level,
+                    {'playlist': 'myPlaylist',
+                     'playlist_type': 'myPlaylistType',
+                     'library_type': 'myLibraryType'
                      })
-
-        return None
+        else:
+            return None
 
     def CPS_start(self, phrase, data):
         """ Starts playback.
@@ -49,14 +37,6 @@ class CPKodiSkill(CommonPlaySkill):
         self.log.info('CPKodi Skill received the following phrase and Data: ' + phrase, data)
         pass
 
-    def translate_regex(self, regex):
-        if regex not in self.regexes:
-            path = self.find_resource(regex + '.regex', 'dialog')
-            if path:
-                with open(path) as f:
-                    string = f.read().strip()
-                self.regexes[regex] = string
-        return self.regexes[regex]
 
 def create_skill():
     return CPKodiSkill()
