@@ -31,7 +31,7 @@ class CPKodiSkill(CommonPlaySkill):
             Called by the playback control skill to start playback if the
             skill is selected (has the best match level)
         """
-        self.log.info('CPKodi Skill received the following phrase and Data: ' + phrase +' '+ data[track])
+        self.log.info('CPKodi Skill received the following phrase and Data: ' + phrase + ' ' + data['track'])
         pass
 
 
