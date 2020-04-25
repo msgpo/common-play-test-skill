@@ -15,9 +15,8 @@ class CPKodiSkill(CommonPlaySkill):
                      or None if no match was found.
         """
         self.log.info('CPKodiSkill received the following phrase: ' + phrase)
-        devices = ["chromecast", "kodi"]
-
-        if devices in phrase:
+        deviceID = "chromecast"
+        if deviceID in phrase:
             match_level = CPSMatchLevel.EXACT
             return (phrase,
                     match_level,
