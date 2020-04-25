@@ -15,16 +15,13 @@ class CPKodiSkill(CommonPlaySkill):
                      or None if no match was found.
         """
         self.log.info('CPKodiSkill received the following phrase: ' + phrase)
-
         deviceID = "chromecast"
+        data = {
+            "track": "my Movie Name"
+        }
         if deviceID in phrase:
             match_level = CPSMatchLevel.EXACT
-            return (phrase,
-                    match_level,
-                    {'playlist': 'myPlaylist',
-                     'playlist_type': 'myPlaylistType',
-                     'library_type': 'myLibraryType'
-                     })
+            return (phrase, match_level, data)
         else:
             return None
 
@@ -34,7 +31,7 @@ class CPKodiSkill(CommonPlaySkill):
             Called by the playback control skill to start playback if the
             skill is selected (has the best match level)
         """
-        self.log.info('CPKodi Skill received the following phrase and Data: ' + phrase + str(data))
+        self.log.info('CPKodi Skill received the following phrase and Data: ' + phrase +' '+ data[track])
         pass
 
 
