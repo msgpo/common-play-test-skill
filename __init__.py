@@ -45,6 +45,14 @@ class CPKodiSkill(CommonPlaySkill):
         self.log.info('CPKodi Skill received the following phrase and Data: ' + phrase, data)
         pass
 
+    def translate_regex(self, regex):
+        if regex not in self.regexes:
+            path = self.find_resource(regex + '.regex', 'dialog')
+            if path:
+                with open(path) as f:
+                    string = f.read().strip()
+                self.regexes[regex] = string
+        return self.regexes[regex]
 
 def create_skill():
     return CPKodiSkill()
