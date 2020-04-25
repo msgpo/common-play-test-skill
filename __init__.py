@@ -9,7 +9,30 @@ class CPKodiSkill(CommonPlaySkill):
                             optional data(dict))
                      or None if no match was found.
         """
-        self.log.info('Checking CPKodi Skill received the following phrase: ' + phrase)
+        self.log.info('CPKodiSkill received the following phrase: ' + phrase)
+        deviceID = "chromecast"
+        chromecast_specified = deviceID in phrase
+        phrase = re.sub(self.translate_regex(deviceID), '', phrase)
+
+        match_level = CPSMatchLevel.MULTI_KEY
+        match = self.specific_query(phrase)
+        # If nothing was found check for a generic match
+        if match == NOTHING_FOUND:
+            match = self.generic_query(phrase)
+            match_level = CPSMatchLevel.GENERIC
+
+        self.log.info('CPKodiSkill match: {}'.format(match))
+        self.log.info('CPKodiSkill matched the following: ' + match)
+        if match == NOTHING_FOUND:
+            self.log.debug('Nothing found on CPKodiSkill')
+            return None
+        else:
+            return (phrase,
+                    (CPSMatchLevel.EXACT if chromecast_specified else match_level),
+                    {'playlist': match[0],
+                     'playlist_type': match[2],
+                     'library_type': match[3]
+                     })
 
         return None
 
