@@ -12,10 +12,10 @@ class CPKodiSkill(CommonPlaySkill):
         """
         self.log.info('CPKodiSkill received the following phrase: ' + phrase)
         device_list = ['chromecast', 'kodi']
-        for each device in device_list:
-            if device in phrase:
+        for device_id in device_list:
+            if device_id in phrase:
                 match_level = CPSMatchLevel.EXACT
-                playback_device = device_list
+                playback_device = device_id
         data = {
             "track": "my Movie Name"
         }
