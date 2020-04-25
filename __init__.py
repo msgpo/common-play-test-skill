@@ -7,20 +7,19 @@ class CPKodiSkill(CommonPlaySkill):
         self.regexes = {}
 
     def CPS_match_query_phrase(self, phrase):
-        """ This method responds wether the skill can play the input phrase.
+        """
             The method is invoked by the PlayBackControlSkill.
-            Returns: tuple (matched phrase(str),
-                            match level(CPSMatchLevel),
-                            optional data(dict))
-                     or None if no match was found.
         """
         self.log.info('CPKodiSkill received the following phrase: ' + phrase)
-        deviceID = "chromecast"
+        device_list = ['chromecast', 'kodi']
+        for each device in device_list:
+            if device in phrase:
+                match_level = CPSMatchLevel.EXACT
+                playback_device = device_list
         data = {
             "track": "my Movie Name"
         }
-        if deviceID in phrase:
-            match_level = CPSMatchLevel.EXACT
+        if match_level:
             return (phrase, match_level, data)
         else:
             return None
