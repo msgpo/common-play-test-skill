@@ -1,4 +1,5 @@
 from mycroft.skills.common_play_skill import CommonPlaySkill, CPSMatchLevel
+import re
 
 class CPKodiSkill(CommonPlaySkill):
     def CPS_match_query_phrase(self, phrase):
@@ -13,7 +14,6 @@ class CPKodiSkill(CommonPlaySkill):
         deviceID = "chromecast"
         chromecast_specified = deviceID in phrase
         phrase = re.sub(self.translate_regex(deviceID), '', phrase)
-
         match_level = CPSMatchLevel.MULTI_KEY
         match = self.specific_query(phrase)
         # If nothing was found check for a generic match
